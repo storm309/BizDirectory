@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 /**
- * Add/Edit Business Page
+ * Add/Edit Business Page - Corporate Registry UI
  */
 const AddEditBusinessPage = () => {
   const { id } = useParams();
@@ -74,144 +74,206 @@ const AddEditBusinessPage = () => {
     }
   };
 
+  // --- Loading State ---
   if (fetchLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
         <Navbar />
-        <LoadingSpinner />
+        <div className="scale-150"><LoadingSpinner /></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div className="min-h-screen bg-[#020617] text-white font-sans selection:bg-cyan-500 selection:text-white pb-20">
+      
+      {/* Background Ambience */}
+      <div className="fixed inset-0 pointer-events-none">
+         <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-900/10 rounded-full blur-[120px]"></div>
+      </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl font-bold text-gray-800 mb-8">
-            {isEditMode ? 'Edit Business' : 'Register Your Business'}
-          </h1>
+      <div className="relative z-50">
+        <Navbar />
+      </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                {error}
-              </div>
-            )}
+      <div className="w-[1200px] mx-auto px-4 py-10 relative z-10">
+        
+        <div className="flex justify-center">
+            
+            {/* --- Main Glass Container --- */}
+            <div className="w-full max-w-5xl bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex">
+                
+                {/* Left Panel: Branding & Tips */}
+                <div className="w-1/3 bg-gradient-to-br from-slate-900 to-slate-800 p-10 border-r border-white/5 relative overflow-hidden flex flex-col justify-between">
+                    <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+                    
+                    <div>
+                        <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-lg border ${isEditMode ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400' : 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'}`}>
+                            {isEditMode ? '⚙️' : '🏢'}
+                        </div>
+                        <h1 className="text-3xl font-black text-white mb-2 leading-tight">
+                            {isEditMode ? 'Modify Profile' : 'Business Registry'}
+                        </h1>
+                        <p className="text-slate-400">
+                            {isEditMode 
+                                ? 'Update your business location, contact info, and description.' 
+                                : 'Launch your digital storefront and reach local customers.'}
+                        </p>
+                    </div>
 
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Business Name *
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  required
-                />
-              </div>
+                    <div className="bg-black/20 rounded-xl p-6 border border-white/5">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Registration Tips</h4>
+                        <ul className="text-sm text-slate-400 space-y-2 list-disc list-inside">
+                            <li>Provide a clear, catchy name.</li>
+                            <li>Ensure contact info is accurate.</li>
+                            <li>Write a compelling description to attract customers.</li>
+                        </ul>
+                    </div>
+                </div>
 
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Category *
-                </label>
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  required
-                >
-                  <option value="Restaurant">Restaurant</option>
-                  <option value="Retail">Retail</option>
-                  <option value="Electronics">Electronics</option>
-                  <option value="Fashion">Fashion</option>
-                  <option value="Grocery">Grocery</option>
-                  <option value="Healthcare">Healthcare</option>
-                  <option value="Education">Education</option>
-                  <option value="Services">Services</option>
-                  <option value="Automotive">Automotive</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+                {/* Right Panel: The Form */}
+                <div className="w-2/3 p-10">
+                    
+                    {error && (
+                        <div className="mb-6 bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center gap-3">
+                            <span className="text-xl">⚠️</span>
+                            <span className="text-red-400 font-medium">{error}</span>
+                        </div>
+                    )}
 
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Address *
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  required
-                />
-              </div>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        
+                        {/* Business Name (Full Width) */}
+                        <div className="group">
+                            <label className="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2 ml-1">
+                                Business Entity Name <span className="text-red-400">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full px-5 py-4 bg-black/40 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 placeholder-slate-600 transition-all font-medium"
+                                placeholder="e.g. Cyber Cafe & Lounge"
+                                required
+                            />
+                        </div>
 
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  City *
-                </label>
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  required
-                />
-              </div>
+                        {/* Row: Category & Phone */}
+                        <div className="grid grid-cols-2 gap-6">
+                            <div className="group">
+                                <label className="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2 ml-1">
+                                    Industry Category <span className="text-red-400">*</span>
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        name="category"
+                                        value={formData.category}
+                                        onChange={handleChange}
+                                        className="w-full px-5 py-4 bg-black/40 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 appearance-none cursor-pointer"
+                                        required
+                                    >
+                                        <option value="Restaurant" className="bg-slate-900">Restaurant</option>
+                                        <option value="Retail" className="bg-slate-900">Retail</option>
+                                        <option value="Electronics" className="bg-slate-900">Electronics</option>
+                                        <option value="Fashion" className="bg-slate-900">Fashion</option>
+                                        <option value="Grocery" className="bg-slate-900">Grocery</option>
+                                        <option value="Healthcare" className="bg-slate-900">Healthcare</option>
+                                        <option value="Education" className="bg-slate-900">Education</option>
+                                        <option value="Services" className="bg-slate-900">Services</option>
+                                        <option value="Automotive" className="bg-slate-900">Automotive</option>
+                                        <option value="Other" className="bg-slate-900">Other</option>
+                                    </select>
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-cyan-500 text-xs">▼</div>
+                                </div>
+                            </div>
 
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                />
-              </div>
+                            <div className="group">
+                                <label className="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2 ml-1">
+                                    Contact Phone
+                                </label>
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    className="w-full px-5 py-4 bg-black/40 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 placeholder-slate-600 transition-all font-mono"
+                                    placeholder="+1 (555) 000-0000"
+                                />
+                            </div>
+                        </div>
 
-              <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                  Description
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  rows="4"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="Tell customers about your business..."
-                ></textarea>
-              </div>
+                        {/* Row: City & Address */}
+                        <div className="grid grid-cols-2 gap-6">
+                             <div className="group">
+                                <label className="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2 ml-1">
+                                    City <span className="text-red-400">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="city"
+                                    value={formData.city}
+                                    onChange={handleChange}
+                                    className="w-full px-5 py-4 bg-black/40 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 placeholder-slate-600 transition-all"
+                                    placeholder="New York"
+                                    required
+                                />
+                            </div>
 
-              <div className="flex gap-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="flex-1 bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition font-semibold disabled:bg-gray-400"
-                >
-                  {loading ? 'Saving...' : (isEditMode ? 'Update Business' : 'Register Business')}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate('/business/dashboard')}
-                  className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-400 transition font-semibold"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+                            <div className="group">
+                                <label className="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2 ml-1">
+                                    Full Address <span className="text-red-400">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    className="w-full px-5 py-4 bg-black/40 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 placeholder-slate-600 transition-all"
+                                    placeholder="123 Main Street"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        {/* Description */}
+                        <div className="group">
+                            <label className="block text-cyan-400 text-xs font-bold uppercase tracking-widest mb-2 ml-1">
+                                Business Description
+                            </label>
+                            <textarea
+                                name="description"
+                                value={formData.description}
+                                onChange={handleChange}
+                                rows="4"
+                                className="w-full px-5 py-4 bg-black/40 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 placeholder-slate-600 transition-all resize-none leading-relaxed"
+                                placeholder="Tell us about your services, history, and values..."
+                            ></textarea>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="pt-6 border-t border-white/5 flex gap-4">
+                            <button
+                                type="button"
+                                onClick={() => navigate('/business/dashboard')}
+                                className="px-8 py-3 rounded-xl border border-slate-600 text-slate-300 font-bold hover:bg-slate-800 hover:text-white transition-all"
+                            >
+                                Cancel
+                            </button>
+                            
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="flex-1 bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-3 rounded-xl font-bold hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {loading ? 'Processing Registry...' : (isEditMode ? 'Update Business Profile' : 'Complete Registration 🚀')}
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
         </div>
       </div>
     </div>

@@ -36,8 +36,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const data = await registerService(userData);
-      setUser(data);
-      localStorage.setItem('user', JSON.stringify(data));
+      // Don't auto-login, just return success
       return { success: true, data };
     } catch (error) {
       return { 
